@@ -1,8 +1,12 @@
 package com.mineralidentificationservice.rabbit;
 
-import java.util.Map;
+import lombok.Getter;
 
+import java.util.Map;
+import java.util.UUID;
+
+@Getter
 public class ResultMessage {
-    String authToken;
+    UUID classificationID;
     private Map<String, Double> predict;
 }

@@ -40,65 +40,62 @@ public class RabbitConfiguration implements RabbitListenerConfigurer {
     @Value("${rabbit.ip}")
     private String serverIp;
 
-    public RabbitConfiguration(Gson gson){
+    public RabbitConfiguration(Gson gson) {
         this.gson = gson;
     }
 
     @Bean
-    public DirectExchange directExchange(){
+    public DirectExchange directExchange() {
         return new DirectExchange(direct);
     }
 
     @Bean
-    public Queue inputQueue(){
+    public Queue inputQueue() {
         return new Queue(inputQueue);
     }
 
     @Bean
-    public Queue outputQueue(){
+    public Queue outputQueue() {
         return new Queue(outputQueue);
     }
 
     @Bean
-    public Binding inputBinding(Queue inputQueue, DirectExchange directExchange){
+    public Binding inputBinding(Queue inputQueue, DirectExchange directExchange) {
         return BindingBuilder.bind(inputQueue).to(directExchange).with("inputQueue");
     }
 
     @Bean
-    public Binding outputBinding(Queue outputQueue, DirectExchange directExchange){
+    public Binding outputBinding(Queue outputQueue, DirectExchange directExchange) {
         return BindingBuilder.bind(outputQueue).to(directExchange).with("outputQueue");
     }
 
     @Bean
-    public Jackson2JsonMessageConverter producerJackson2MessageConverter(){
+    public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
     @Bean
-    public MappingJackson2MessageConverter consumerJackson2MessageConverter(){
+    public MappingJackson2MessageConverter consumerJackson2MessageConverter() {
         return new MappingJackson2MessageConverter();
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate (final ConnectionFactory connectionFactory){
+    public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
         return rabbitTemplate;
     }
 
     @Bean
-    public DefaultMessageHandlerMethodFactory massageHandlerMethodFactory(){
-        DefaultMessageHandlerMethodFactory defaultMessageHandlerMethodFactory =
-                new DefaultMessageHandlerMethodFactory();
+    public DefaultMessageHandlerMethodFactory massageHandlerMethodFactory() {
+        DefaultMessageHandlerMethodFactory defaultMessageHandlerMethodFactory = new DefaultMessageHandlerMethodFactory();
         defaultMessageHandlerMethodFactory.setMessageConverter(consumerJackson2MessageConverter());
         return defaultMessageHandlerMethodFactory;
     }
 
     @Bean
-    public RabbitListenerContainerFactory<SimpleMessageListenerContainer> prefetchOneRabbitListenerContainerFactory(
-            ConnectionFactory connectionFactory){
-        SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory =
-                new SimpleRabbitListenerContainerFactory();
+    public RabbitListenerContainerFactory<SimpleMessageListenerContainer> prefetchOneRabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
         simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
         simpleRabbitListenerContainerFactory.setPrefetchCount(ONE_MESSAGE);
         return simpleRabbitListenerContainerFactory;
@@ -110,7 +107,7 @@ public class RabbitConfiguration implements RabbitListenerConfigurer {
     }
 
     @Bean
-    public RabbitReceiver rabbitReceiver(){
+    public RabbitReceiver rabbitReceiver() {
         return new RabbitReceiver();
     }
 }

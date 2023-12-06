@@ -1,6 +1,6 @@
 package com.mineralidentificationservice.rest.restMessages;
 
-public class ClassificationResultMessageClass {
+public class ClassificationResultMessage {
     String authToken;
     String predict;
 }

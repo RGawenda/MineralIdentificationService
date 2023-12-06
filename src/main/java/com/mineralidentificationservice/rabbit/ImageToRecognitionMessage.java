@@ -2,8 +2,10 @@ package com.mineralidentificationservice.rabbit;
 
 import lombok.AllArgsConstructor;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 public class ImageToRecognitionMessage {
-    String userName;
-    String imagePath;
+    UUID classificationID;
+    String imageBase64;
 }

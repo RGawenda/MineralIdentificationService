@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @Builder
@@ -19,14 +21,19 @@ public class Minerals {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
+
+    @OneToMany(mappedBy = "mineralId", cascade = CascadeType.ALL)
+    private List<FoundMineral> minerals;
+
     @Column(name = "Name", columnDefinition = "VARCHAR(20)")
     private String mineralName;
-    @Column(name = "VSS", columnDefinition = "VARCHAR(20)")
-    private String vss;
+
     @Column(name = "Mohs_scale", columnDefinition = "VARCHAR(6)")
-    private Double MohsScale;
+    private String mohsScale;
+
     @Column(name = "CHEMICAL_FORMULA", columnDefinition = "VARCHAR(12)")
-    private String ChemicalFormula;
-    @Column(name = "OCCURANCE_PLACE", columnDefinition = "VARCHAR(40)")
-    private String occurancePlace;
+    private String chemicalFormula;
+
+    @Column(name = "OCCURRENCE_PLACE", columnDefinition = "VARCHAR(40)")
+    private String occurrencePlace;
 }

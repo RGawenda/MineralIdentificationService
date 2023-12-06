@@ -13,19 +13,20 @@ import org.springframework.stereotype.Service;
 public class RabbitSender {
     private final RabbitTemplate rabbitTemplate;
 
-    public RabbitSender(RabbitTemplate rabbitTemplate){
+    public RabbitSender(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
+
     private Gson gson = new Gson();
 
     public void send(String rabbitMessage, int waitToSend) throws InterruptedException {
-        for (int i = 0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             try {
                 rabbitTemplate.convertAndSend(new DirectExchange("direct").getName(), "outputQueue", rabbitMessage);
                 log.debug("Sent to rabbit");
                 break;
             } catch (AmqpException e) {
-                log.warn("Problem connecting to rabbitMQ. Waiting: "+waitToSend/1000+" seconds");
+                log.warn("Problem connecting to rabbitMQ. Waiting: " + waitToSend / 1000 + " seconds");
                 Thread.sleep(waitToSend);
             }
         }
