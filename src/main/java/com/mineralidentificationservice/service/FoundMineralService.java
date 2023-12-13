@@ -1,7 +1,6 @@
 package com.mineralidentificationservice.service;
 
 import com.mineralidentificationservice.model.FoundMineral;
-import com.mineralidentificationservice.model.Minerals;
 import com.mineralidentificationservice.repository.FoundMineralRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -23,17 +22,17 @@ public class FoundMineralService {
     }
 
     @Transactional
-    public FoundMineral addRecord(FoundMineral foundMineral) {
+    public FoundMineral addMineralImages(FoundMineral foundMineral) {
         return foundMineralRepository.save(foundMineral);
     }
 
     @Transactional
-    public FoundMineral getRecord(Long id) {
+    public FoundMineral getMineralImages(Long id) {
         return foundMineralRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
     }
 
     @Transactional
-    public FoundMineral updateRecord(Long id, FoundMineral foundMineral) {
+    public FoundMineral updateMineralImages(Long id, FoundMineral foundMineral) {
         if (!foundMineralRepository.existsById(id)) {
             throw new EntityNotFoundException("Entity not found with id: " + id);
         }
@@ -42,7 +41,7 @@ public class FoundMineralService {
     }
 
     @Transactional
-    public void deleteRecord(Long id) {
+    public void deleteMineralImages(Long id) {
         if (!foundMineralRepository.existsById(id)) {
             throw new EntityNotFoundException("Entity not found with id: " + id);
         }

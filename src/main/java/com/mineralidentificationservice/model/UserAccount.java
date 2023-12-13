@@ -19,18 +19,18 @@ import java.util.List;
 public class UserAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
+    @Column(name = "Id")
     private Long id;
 
     @OneToMany(mappedBy = "accountId", cascade = CascadeType.ALL)
     private List<FoundMineral> minerals;
 
-    @Column(name = "USER_NAME", columnDefinition = "VARCHAR(10)")
+    @Column(name = "UserName", columnDefinition = "VARCHAR(10)", nullable = false)
     private String username;
 
-    @Column(name = "LOGIN", columnDefinition = "VARCHAR(10)")
+    @Column(name = "Login", columnDefinition = "VARCHAR(10)", nullable = false)
     private String login;
 
-    @Column(name = "PASSWORD", columnDefinition = "VARCHAR(18)")
+    @Column(name = "Password", columnDefinition = "VARCHAR(18)", nullable = false)
     private String password;
 }

@@ -42,10 +42,13 @@ public class FileUtilsConv {
         return imagePaths;
     }
 
-    public static void deleteAllImage(List<String> listToDelete) {
+    public static List<String> deleteAllImage(List<String> listToDelete, String user) {
+        List<String> deletedImages = new ArrayList<>();
         for (String imageToDelete : listToDelete) {
-            deleteImage(imageToDelete);
+            deleteImage(user+imageToDelete);
+            deletedImages.add(user+imageToDelete);
         }
+        return deletedImages;
     }
 
     public static String convertImageToBase64(File inputFile) {

@@ -19,21 +19,21 @@ import java.util.List;
 public class Minerals {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
+    @Column(name = "Id")
     private Long id;
 
     @OneToMany(mappedBy = "mineralId", cascade = CascadeType.ALL)
-    private List<FoundMineral> minerals;
+    private List<FoundMineral> foundMinerals;
 
-    @Column(name = "Name", columnDefinition = "VARCHAR(20)")
+    @Column(name = "Name", columnDefinition = "VARCHAR(20)", nullable = false)
     private String mineralName;
 
-    @Column(name = "Mohs_scale", columnDefinition = "VARCHAR(6)")
-    private String mohsScale;
+    @Column(name = "MohsScale", columnDefinition = "VARCHAR(6)")
+    private Double mohsScale;
 
-    @Column(name = "CHEMICAL_FORMULA", columnDefinition = "VARCHAR(12)")
+    @Column(name = "ChemicalFormula", columnDefinition = "VARCHAR(12)")
     private String chemicalFormula;
 
-    @Column(name = "OCCURRENCE_PLACE", columnDefinition = "VARCHAR(40)")
+    @Column(name = "OccurrencePlace", columnDefinition = "VARCHAR(40)")
     private String occurrencePlace;
 }

@@ -1,5 +1,6 @@
 package com.mineralidentificationservice.model;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -7,8 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -20,46 +19,45 @@ import java.util.List;
 public class FoundMineral {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
+    @Column(name = "Id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "MINERAL_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "MineralId", referencedColumnName = "Id", nullable = false)
     private Minerals mineralId;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "UserId", referencedColumnName = "Id", nullable = false)
     private UserAccount accountId;
 
-    @Column(name = "NAME", columnDefinition = "VARCHAR(30)")
+    @Column(name = "Name", columnDefinition = "VARCHAR(30)", nullable = false)
     private String name;
 
-    @Column(name = "COMMENT", columnDefinition = "VARCHAR(30)")
+    @Column(name = "Comment", columnDefinition = "VARCHAR(30)")
     private String comment;
 
-    @Column(name = "DISCOVERY_PLACE", columnDefinition = "VARCHAR(30)")
+    @Column(name = "DiscoveryPlace", columnDefinition = "VARCHAR(30)")
     private String discoveryPlace;
 
-    @Column(name = "VALUE", columnDefinition = "VARCHAR(30)")
+    @Column(name = "Value", columnDefinition = "VARCHAR(30)")
     private String value;
 
-    @Column(name = "WEIGHT", columnDefinition = "VARCHAR(30)")
+    @Column(name = "Weight", columnDefinition = "VARCHAR(30)")
     private String weight;
 
-    @Column(name = "SIZE", columnDefinition = "VARCHAR(30)")
+    @Column(name = "Size", columnDefinition = "VARCHAR(30)")
     private String size;
 
-    @Column(name = "INCLUSION", columnDefinition = "VARCHAR(30)")
+    @Column(name = "Inclusion", columnDefinition = "VARCHAR(30)")
     private String inclusion;
 
-    @Column(name = "CLARITY", columnDefinition = "VARCHAR(30)")
+    @Column(name = "Clarity", columnDefinition = "VARCHAR(30)")
     private String clarity;
 
-    @Column(name = "PATHS")
-    @ElementCollection
-    private List<String> paths;
+    @OneToMany(mappedBy = "foundMineralID", cascade = CascadeType.ALL)
+    private List<MineralImages> mineralImages;
 
-    @Column(name = "TAGS", columnDefinition = "VARCHAR(30)")
-    @ElementCollection
-    private List<String> tags;
+    @OneToMany(mappedBy = "foundMineralId", cascade = CascadeType.ALL)
+    private List<TagsFoundMineral> tags;
+
 }

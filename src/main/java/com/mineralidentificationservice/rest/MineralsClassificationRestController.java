@@ -41,5 +41,7 @@ public class MineralsClassificationRestController {
         return res;
     }
 
+
+
 }
 

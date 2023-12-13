@@ -1,6 +1,5 @@
 package com.mineralidentificationservice.service;
 
-import com.jayway.jsonpath.internal.function.numeric.Min;
 import com.mineralidentificationservice.model.Minerals;
 import com.mineralidentificationservice.repository.MineralRepository;
 
@@ -28,17 +27,17 @@ public class MineralService {
     }
 
     @Transactional
-    public Minerals addRecord(Minerals minerals) {
+    public Minerals addMineral(Minerals minerals) {
         return mineralRepository.save(minerals);
     }
 
     @Transactional
-    public Minerals getRecord(Long id) {
+    public Minerals getMineral(Long id) {
         return mineralRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
     }
 
     @Transactional
-    public Minerals updateRecord(Long id, Minerals minerals) {
+    public Minerals updateMineral(Long id, Minerals minerals) {
         if (!mineralRepository.existsById(id)) {
             throw new EntityNotFoundException("Entity not found with id: " + id);
         }
@@ -47,18 +46,26 @@ public class MineralService {
     }
 
     @Transactional
-    public void deleteRecord(Long id) {
+    public void deleteMineral(Long id) {
         if (!mineralRepository.existsById(id)) {
             throw new EntityNotFoundException("Entity not found with id: " + id);
         }
         mineralRepository.deleteById(id);
     }
-
+    @Transactional
     public List<Minerals> getMineralsByNames(List<String> names) {
         String jpql = "SELECT m FROM Minerals m WHERE m.mineralName IN :names";
         TypedQuery<Minerals> query = entityManager.createQuery(jpql, Minerals.class);
         query.setParameter("names", names);
         return query.getResultList();
+    }
+
+    @Transactional
+    public Minerals getMineralByName(String name) {
+        String jpql = "SELECT m FROM Minerals m WHERE m.mineralName IN :name";
+        TypedQuery<Minerals> query = entityManager.createQuery(jpql, Minerals.class);
+        query.setParameter("name", name);
+        return query.getSingleResult();
     }
 
 }

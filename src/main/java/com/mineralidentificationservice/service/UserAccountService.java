@@ -31,17 +31,17 @@ public class UserAccountService {//implements UserDetailsService {
     }
 
     @Transactional
-    public UserAccount addRecord(UserAccount userAccount) {
+    public UserAccount addAccount(UserAccount userAccount) {
         return userAccountRepository.save(userAccount);
     }
 
     @Transactional
-    public UserAccount getRecord(Long id) {
+    public UserAccount getAccount(Long id) {
         return userAccountRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
     }
 
     @Transactional
-    public UserAccount updateRecord(Long id, UserAccount userAccount) {
+    public UserAccount updateAccount(Long id, UserAccount userAccount) {
         if (!userAccountRepository.existsById(id)) {
             throw new EntityNotFoundException("Entity not found with id: " + id);
         }
@@ -50,7 +50,7 @@ public class UserAccountService {//implements UserDetailsService {
     }
 
     @Transactional
-    public void deleteRecord(Long id) {
+    public void deleteAccount(Long id) {
         if (!userAccountRepository.existsById(id)) {
             throw new EntityNotFoundException("Entity not found with id: " + id);
         }
