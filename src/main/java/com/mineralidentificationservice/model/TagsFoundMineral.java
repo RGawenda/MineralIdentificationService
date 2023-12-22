@@ -1,5 +1,8 @@
 package com.mineralidentificationservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,11 +21,11 @@ public class TagsFoundMineral {
     @Column(name = "Id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FoundMineralId", referencedColumnName = "Id", nullable = false)
     private FoundMineral foundMineralId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TagId", referencedColumnName = "Id", nullable = false)
     private Tags tagId;
 }

@@ -1,5 +1,6 @@
 package com.mineralidentificationservice.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,12 +21,8 @@ public class Tags {
     @Column(name = "Id")
     private Long id;
 
-    @OneToMany(mappedBy = "tagId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tagId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TagsFoundMineral> tagsFoundMineralsList;
-
-    @ManyToOne
-    @JoinColumn(name = "MineralId", referencedColumnName = "Id", nullable = false)
-    private Minerals mineralId;
 
     @Column(name = "TagName", columnDefinition = "VARCHAR(30)", nullable = false)
     private String tagName;

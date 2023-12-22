@@ -7,6 +7,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,10 @@ public class FoundMineralService {
         }
         foundMineral.setId(id);
         return foundMineralRepository.save(foundMineral);
+    }
+
+    public Page<FoundMineral> getAllEntities(Pageable pageable) {
+        return foundMineralRepository.findAll(pageable);
     }
 
     @Transactional

@@ -2,7 +2,7 @@ package com.mineralidentificationservice.rabbit;
 
 import com.google.gson.Gson;
 
-import com.mineralidentificationservice.services.ClassificationResultService;
+import com.mineralidentificationservice.service.ClassificationResultService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;

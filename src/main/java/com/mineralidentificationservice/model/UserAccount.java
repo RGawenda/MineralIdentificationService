@@ -1,6 +1,7 @@
 package com.mineralidentificationservice.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class UserAccount {
     @Column(name = "Id")
     private Long id;
 
-    @OneToMany(mappedBy = "accountId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "accountId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FoundMineral> minerals;
 
     @Column(name = "UserName", columnDefinition = "VARCHAR(10)", nullable = false)

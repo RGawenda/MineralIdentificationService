@@ -1,5 +1,7 @@
 package com.mineralidentificationservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -21,8 +23,8 @@ public class Minerals {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id")
     private Long id;
-
-    @OneToMany(mappedBy = "mineralId", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "mineralId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FoundMineral> foundMinerals;
 
     @Column(name = "Name", columnDefinition = "VARCHAR(20)", nullable = false)
@@ -31,7 +33,7 @@ public class Minerals {
     @Column(name = "MohsScale", columnDefinition = "VARCHAR(6)")
     private Double mohsScale;
 
-    @Column(name = "ChemicalFormula", columnDefinition = "VARCHAR(12)")
+    @Column(name = "ChemicalFormula", columnDefinition = "VARCHAR(40)")
     private String chemicalFormula;
 
     @Column(name = "OccurrencePlace", columnDefinition = "VARCHAR(40)")

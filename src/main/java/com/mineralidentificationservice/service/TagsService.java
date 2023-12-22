@@ -1,5 +1,6 @@
 package com.mineralidentificationservice.service;
 
+import com.mineralidentificationservice.model.FoundMineral;
 import com.mineralidentificationservice.model.Minerals;
 import com.mineralidentificationservice.model.Tags;
 import com.mineralidentificationservice.repository.TagsRepository;
@@ -11,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
 @Service
 @Slf4j
 public class TagsService {
@@ -50,10 +54,12 @@ public class TagsService {
     }
 
     @Transactional
-    public Tags getMineralByName(String name) {
-        String jpql = "SELECT m FROM Tags m WHERE m.tagName IN :name";
-        TypedQuery<Tags> query = entityManager.createQuery(jpql, Tags.class);
-        query.setParameter("name", name);
-        return query.getSingleResult();
+    public List<Tags> getTagsByName(String name) {
+        return tagsRepository.findTagsByTagName(name);
+    }
+
+    @Transactional
+    public List<Tags> getTagsByFoundMineral(FoundMineral foundMineral) {
+        return tagsRepository.findByTagsFoundMineralsListFoundMineralId(foundMineral);
     }
 }

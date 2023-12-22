@@ -1,5 +1,6 @@
 package com.mineralidentificationservice.service;
 
+import com.jayway.jsonpath.internal.function.numeric.Min;
 import com.mineralidentificationservice.model.Minerals;
 import com.mineralidentificationservice.repository.MineralRepository;
 
@@ -62,10 +63,20 @@ public class MineralService {
 
     @Transactional
     public Minerals getMineralByName(String name) {
-        String jpql = "SELECT m FROM Minerals m WHERE m.mineralName IN :name";
-        TypedQuery<Minerals> query = entityManager.createQuery(jpql, Minerals.class);
-        query.setParameter("name", name);
-        return query.getSingleResult();
+        List<Minerals> minerals =  mineralRepository.findMineralsByMineralName(name);
+        if(minerals != null && !minerals.isEmpty()){
+            return minerals.get(0);
+        }
+        log.info("error not found mineral"+ name);
+        return new Minerals();
+    }
+
+
+    @Transactional
+    public List<String> getAllMineralNames() {
+        String jpql = "SELECT DISTINCT m.mineralName FROM Minerals m";
+        TypedQuery<String> query = entityManager.createQuery(jpql, String.class);
+        return query.getResultList();
     }
 
 }

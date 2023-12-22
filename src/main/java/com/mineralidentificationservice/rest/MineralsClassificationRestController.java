@@ -2,11 +2,14 @@ package com.mineralidentificationservice.rest;
 
 
 import com.mineralidentificationservice.ProcessImage;
+import com.mineralidentificationservice.model.Minerals;
 import com.mineralidentificationservice.service.MineralService;
-import com.mineralidentificationservice.services.ClassificationResultService;
+import com.mineralidentificationservice.service.ClassificationResultService;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.UUID;
 
 
@@ -24,7 +27,7 @@ public class MineralsClassificationRestController {
         this.classificationResultService = classificationResultService;
     }
 
-    @GetMapping("/mineral-classification")
+    @PostMapping("/mineral-classification")
     public String classificationImage(@RequestParam String image) {
         UUID uuid = UUID.randomUUID();
 
@@ -41,7 +44,17 @@ public class MineralsClassificationRestController {
         return res;
     }
 
+    @GetMapping("/get-minerals-names")
+    public List<String> getMineralsNames() {
+        log.info("get all minerals");
+        return mineralService.getAllMineralNames();
+    }
 
+    @GetMapping("/get-mineral")
+    public Minerals getMineral(@RequestParam String mineralName) {
+        log.info("get mineral by name: "+ mineralName);
+        return mineralService.getMineralByName(mineralName);
+    }
 
 }
 

@@ -1,4 +1,4 @@
-package com.mineralidentificationservice.services;
+package com.mineralidentificationservice.service;
 
 import com.google.gson.Gson;
 import com.mineralidentificationservice.rabbit.ResultMessage;

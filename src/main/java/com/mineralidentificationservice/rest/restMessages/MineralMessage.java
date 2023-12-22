@@ -2,8 +2,13 @@ package com.mineralidentificationservice.rest.restMessages;
 
 
 import com.mineralidentificationservice.model.FoundMineral;
+import com.mineralidentificationservice.model.MineralImages;
+import com.mineralidentificationservice.model.Tags;
+import com.mineralidentificationservice.model.TagsFoundMineral;
+import com.mineralidentificationservice.utils.FileUtilsConv;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -51,4 +56,23 @@ public class MineralMessage {
         foundMineral.setClarity(this.clarity);
         return foundMineral;
     }
+
+    public void setImagesFromDatabase(List<MineralImages> images){
+
+        List<String> imagesBase64 = new ArrayList<>();
+
+        for(MineralImages image: images){
+            imagesBase64.add(FileUtilsConv.loadImage(image.getPath()));
+        }
+        setImages(imagesBase64);
+    }
+
+    public void setTagsFromTagsEntityList(List<Tags> tagsEntityList){
+        List<String> tags = new ArrayList<>();
+        for(Tags tag: tagsEntityList){
+            tags.add(tag.getTagName());
+        }
+        setTags(tags);
+    }
+
 }
