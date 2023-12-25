@@ -7,6 +7,7 @@ import com.mineralidentificationservice.model.Tags;
 import com.mineralidentificationservice.model.TagsFoundMineral;
 import com.mineralidentificationservice.utils.FileUtilsConv;
 import lombok.*;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Log4j2
 public class MineralMessage {
     private Long id;
     private String name;
@@ -26,8 +28,9 @@ public class MineralMessage {
     private String size;
     private String inclusion;
     private String clarity;
+    private List<Long> imagesID;
     private List<String> images;
-    private List<String> deletedImages;
+    private List<Long> deletedImages;
     private List<String> tags;
     private String mineralName;
 
@@ -58,13 +61,16 @@ public class MineralMessage {
     }
 
     public void setImagesFromDatabase(List<MineralImages> images){
-
+        List<Long> imagesID = new ArrayList<>();
         List<String> imagesBase64 = new ArrayList<>();
 
         for(MineralImages image: images){
+            log.info(image.getPath());
             imagesBase64.add(FileUtilsConv.loadImage(image.getPath()));
+            imagesID.add(image.getId());
         }
         setImages(imagesBase64);
+        setImagesID(imagesID);
     }
 
     public void setTagsFromTagsEntityList(List<Tags> tagsEntityList){

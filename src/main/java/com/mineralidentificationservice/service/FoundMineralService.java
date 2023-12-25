@@ -1,6 +1,7 @@
 package com.mineralidentificationservice.service;
 
 import com.mineralidentificationservice.model.FoundMineral;
+import com.mineralidentificationservice.model.UserAccount;
 import com.mineralidentificationservice.repository.FoundMineralRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -24,17 +25,17 @@ public class FoundMineralService {
     }
 
     @Transactional
-    public FoundMineral addMineralImages(FoundMineral foundMineral) {
+    public FoundMineral addFoundMineral(FoundMineral foundMineral) {
         return foundMineralRepository.save(foundMineral);
     }
 
     @Transactional
-    public FoundMineral getMineralImages(Long id) {
+    public FoundMineral getFoundMineral(Long id) {
         return foundMineralRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
     }
 
     @Transactional
-    public FoundMineral updateMineralImages(Long id, FoundMineral foundMineral) {
+    public FoundMineral updateFoundMineral(Long id, FoundMineral foundMineral) {
         if (!foundMineralRepository.existsById(id)) {
             throw new EntityNotFoundException("Entity not found with id: " + id);
         }
@@ -42,12 +43,17 @@ public class FoundMineralService {
         return foundMineralRepository.save(foundMineral);
     }
 
-    public Page<FoundMineral> getAllEntities(Pageable pageable) {
+    public Page<FoundMineral> getAllFoundMinerals(Pageable pageable) {
         return foundMineralRepository.findAll(pageable);
     }
 
+    public Page<FoundMineral> getAllByUser(UserAccount userAccount, Pageable pageable) {
+        return foundMineralRepository.findFoundMineralsByAccountId(userAccount, pageable);
+    }
+
+
     @Transactional
-    public void deleteMineralImages(Long id) {
+    public void deleteFoundMineral(Long id) {
         if (!foundMineralRepository.existsById(id)) {
             throw new EntityNotFoundException("Entity not found with id: " + id);
         }

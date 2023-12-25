@@ -6,6 +6,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,11 @@ public class FileUtilsConv {
     public static String saveImage(String imageBase64, String userFolderPath) {
         byte[] decodedBytes = Base64.decodeBase64(imageBase64);
 
-        String fileName = userFolderPath + generateUniqueFileName();
+        File directory = new File(userFolderPath);
+        if(!directory.exists()){
+            directory.mkdir();
+        }
+        String fileName = userFolderPath +File.separator+ generateUniqueFileName();
 
         File file = new File(fileName);
         try (FileOutputStream fos = new FileOutputStream(file)) {
