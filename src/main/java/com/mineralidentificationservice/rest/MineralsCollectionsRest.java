@@ -236,12 +236,12 @@ public class MineralsCollectionsRest {
             }
             editedMineral.setTags(tagsFoundMineralList);
 
-            if(!currentlyTags.isEmpty()){
+            if (!currentlyTags.isEmpty()) {
                 tagsFoundMineralService.deleteRecordsByFoundMineralAndTagName(editedMineral, currentlyTags);
             }
 
-        }else{
-            if(!currentlyTags.isEmpty()){
+        } else {
+            if (!currentlyTags.isEmpty()) {
                 tagsFoundMineralService.deleteRecordsByFoundMineral(editedMineral);
             }
         }

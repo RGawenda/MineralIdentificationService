@@ -49,7 +49,7 @@ public class TagsFoundMineralService {
 
     @Transactional
     public void deleteRecordsByFoundMineralAndTagName(FoundMineral id, List<Tags> stringList) {
-        for(Tags tagName:stringList){
+        for (Tags tagName : stringList) {
             tagsFoundMineralRepository.deleteTagsFoundMineralByFoundMineralIdAndTagId(id, tagName);
         }
     }

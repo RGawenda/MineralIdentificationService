@@ -58,10 +58,10 @@ public class FoundMineral {
     @Column(name = "Clarity", columnDefinition = "VARCHAR(200)")
     private String clarity;
 
-    @OneToMany(mappedBy = "foundMineralID",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "foundMineralID", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MineralImages> mineralImages;
 
-    @OneToMany(mappedBy = "foundMineralId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "foundMineralId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TagsFoundMineral> tags;
 
 }

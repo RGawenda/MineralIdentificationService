@@ -1,7 +1,6 @@
 package com.mineralidentificationservice.utils;
 
 
-
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.io.*;
@@ -16,10 +15,10 @@ public class FileUtilsConv {
         byte[] decodedBytes = Base64.decodeBase64(imageBase64);
 
         File directory = new File(userFolderPath);
-        if(!directory.exists()){
+        if (!directory.exists()) {
             directory.mkdir();
         }
-        String fileName = userFolderPath +File.separator+ generateUniqueFileName();
+        String fileName = userFolderPath + File.separator + generateUniqueFileName();
 
         File file = new File(fileName);
         try (FileOutputStream fos = new FileOutputStream(file)) {
@@ -50,8 +49,8 @@ public class FileUtilsConv {
     public static List<String> deleteAllImage(List<String> listToDelete, String user) {
         List<String> deletedImages = new ArrayList<>();
         for (String imageToDelete : listToDelete) {
-            deleteImage(user+imageToDelete);
-            deletedImages.add(user+imageToDelete);
+            deleteImage(user + imageToDelete);
+            deletedImages.add(user + imageToDelete);
         }
         return deletedImages;
     }

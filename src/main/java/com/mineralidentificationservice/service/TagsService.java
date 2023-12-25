@@ -21,6 +21,7 @@ public class TagsService {
     private final TagsRepository tagsRepository;
     @PersistenceContext
     private EntityManager entityManager;
+
     @Autowired
     public TagsService(TagsRepository tagsRepository) {
         this.tagsRepository = tagsRepository;

@@ -60,11 +60,11 @@ public class MineralMessage {
         return foundMineral;
     }
 
-    public void setImagesFromDatabase(List<MineralImages> images){
+    public void setImagesFromDatabase(List<MineralImages> images) {
         List<Long> imagesID = new ArrayList<>();
         List<String> imagesBase64 = new ArrayList<>();
 
-        for(MineralImages image: images){
+        for (MineralImages image : images) {
             log.info(image.getPath());
             imagesBase64.add(FileUtilsConv.loadImage(image.getPath()));
             imagesID.add(image.getId());
@@ -73,9 +73,9 @@ public class MineralMessage {
         setImagesID(imagesID);
     }
 
-    public void setTagsFromTagsEntityList(List<Tags> tagsEntityList){
+    public void setTagsFromTagsEntityList(List<Tags> tagsEntityList) {
         List<String> tags = new ArrayList<>();
-        for(Tags tag: tagsEntityList){
+        for (Tags tag : tagsEntityList) {
             tags.add(tag.getTagName());
         }
         setTags(tags);

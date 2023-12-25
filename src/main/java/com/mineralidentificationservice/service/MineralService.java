@@ -53,6 +53,7 @@ public class MineralService {
         }
         mineralRepository.deleteById(id);
     }
+
     @Transactional
     public List<Minerals> getMineralsByNames(List<String> names) {
         String jpql = "SELECT m FROM Minerals m WHERE m.mineralName IN :names";
@@ -63,11 +64,11 @@ public class MineralService {
 
     @Transactional
     public Minerals getMineralByName(String name) {
-        List<Minerals> minerals =  mineralRepository.findMineralsByMineralName(name);
-        if(minerals != null && !minerals.isEmpty()){
+        List<Minerals> minerals = mineralRepository.findMineralsByMineralName(name);
+        if (minerals != null && !minerals.isEmpty()) {
             return minerals.get(0);
         }
-        log.info("error not found mineral"+ name);
+        log.info("error not found mineral" + name);
         return new Minerals();
     }
 

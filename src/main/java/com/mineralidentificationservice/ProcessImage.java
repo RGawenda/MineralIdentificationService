@@ -15,6 +15,7 @@ public class ProcessImage {
     public ProcessImage(RabbitSender rabbitSender) {
         this.rabbitSender = rabbitSender;
     }
+
     private final Gson gson = new Gson();
 
     public void process(UUID uuid, String image) {

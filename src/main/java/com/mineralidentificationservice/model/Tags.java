@@ -21,7 +21,7 @@ public class Tags {
     @Column(name = "Id")
     private Long id;
 
-    @OneToMany(mappedBy = "tagId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tagId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TagsFoundMineral> tagsFoundMineralsList;
 
     @Column(name = "TagName", columnDefinition = "VARCHAR(30)", nullable = false)

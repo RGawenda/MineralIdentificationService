@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface TagsFoundMineralRepository extends JpaRepository<TagsFoundMineral, Long> {
     List<TagsFoundMineral> findTagsFoundMineralsByFoundMineralId(FoundMineral foundMineral);
+
     List<TagsFoundMineral> deleteTagsFoundMineralsByFoundMineralId(FoundMineral foundMineral);
 
     List<TagsFoundMineral> deleteTagsFoundMineralByFoundMineralIdAndTagId(FoundMineral foundMineral, Tags nameToDelete);

@@ -24,7 +24,7 @@ public class Minerals {
     @Column(name = "Id")
     private Long id;
     @JsonIgnore
-    @OneToMany(mappedBy = "mineralId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mineralId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FoundMineral> foundMinerals;
 
     @Column(name = "Name", columnDefinition = "VARCHAR(20)", nullable = false)

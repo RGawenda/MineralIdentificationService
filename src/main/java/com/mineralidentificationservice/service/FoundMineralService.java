@@ -51,7 +51,6 @@ public class FoundMineralService {
         return foundMineralRepository.findFoundMineralsByAccountId(userAccount, pageable);
     }
 
-
     @Transactional
     public void deleteFoundMineral(Long id) {
         if (!foundMineralRepository.existsById(id)) {

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface TagsRepository extends JpaRepository<Tags, Long> {
     List<Tags> findTagsByTagName(String name);
+
     List<Tags> findByTagsFoundMineralsListFoundMineralId(FoundMineral tagsFoundMineralsList_foundMineralId);
 
 }

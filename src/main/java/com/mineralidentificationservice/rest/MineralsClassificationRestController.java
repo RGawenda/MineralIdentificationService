@@ -52,7 +52,7 @@ public class MineralsClassificationRestController {
 
     @GetMapping("/get-mineral")
     public Minerals getMineral(@RequestParam String mineralName) {
-        log.info("get mineral by name: "+ mineralName);
+        log.info("get mineral by name: " + mineralName);
         return mineralService.getMineralByName(mineralName);
     }
 
