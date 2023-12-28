@@ -4,16 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "MineralImages")
 public class MineralImages {
@@ -29,6 +24,4 @@ public class MineralImages {
     @Column(name = "Path", columnDefinition = "VARCHAR", nullable = false)
     private String path;
 
-    @Column(name = "DisplayOrder", columnDefinition = "VARCHAR(30)", nullable = false)
-    private int displayOrder;
 }

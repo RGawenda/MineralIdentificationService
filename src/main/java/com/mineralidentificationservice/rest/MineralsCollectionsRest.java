@@ -1,8 +1,10 @@
 package com.mineralidentificationservice.rest;
 
+import com.google.gson.Gson;
 import com.mineralidentificationservice.model.*;
 import com.mineralidentificationservice.rest.restMessages.MineralMessage;
 import com.mineralidentificationservice.service.*;
+import com.mineralidentificationservice.specification.FoundMineralFilter;
 import com.mineralidentificationservice.utils.FileUtilsConv;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Log4j2
 @RestController
@@ -32,7 +35,9 @@ public class MineralsCollectionsRest {
     @Value("${users.dir}")
     private String usersDir;
 
-    public MineralsCollectionsRest(TagsFoundMineralService tagsFoundMineralService, MineralService mineralService, MineralImagesService mineralImagesServices, TagsService tagsService, FoundMineralService foundMineralService, UserAccountService userAccountService) {
+    public MineralsCollectionsRest(TagsFoundMineralService tagsFoundMineralService, MineralService mineralService,
+                                   MineralImagesService mineralImagesServices, TagsService tagsService,
+                                   FoundMineralService foundMineralService, UserAccountService userAccountService) {
         this.foundMineralService = foundMineralService;
         this.userAccountService = userAccountService;
         this.mineralImagesServices = mineralImagesServices;
@@ -44,11 +49,13 @@ public class MineralsCollectionsRest {
     @GetMapping("all-collection")
     public ResponseEntity<List<MineralMessage>> getAllEntities(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        log.info("get collection page: " + page + " size: " + size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam String filter) {
+        log.info("get collection page: " + page + " size: " + size+"filter: "+filter);
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<FoundMineral> entities = foundMineralService.getAllFoundMinerals(pageable);
+        FoundMineralFilter foundMineralFilter = new Gson().fromJson(filter, FoundMineralFilter.class);
+        Page<FoundMineral> entities = foundMineralService.getAllByUser(foundMineralFilter, pageable);
         List<MineralMessage> mineralMessages = new ArrayList<>();
 
         for (FoundMineral found : entities) {
@@ -79,7 +86,8 @@ public class MineralsCollectionsRest {
 
     //CRUD minerals
     @PostMapping("/add-mineral-to-collection")
-    public ResponseEntity<MineralMessage> addMineralToCollection(@RequestParam Long id, @RequestBody MineralMessage mineral) {
+    public ResponseEntity<MineralMessage> addMineralToCollection(@RequestParam Long id,
+                                                                 @RequestBody MineralMessage mineral) {
         log.info("add mineral");
         FoundMineral newMineral = mineral.getFoundMineral();
         UserAccount userAccount = userAccountService.getAccount(id);
@@ -91,18 +99,12 @@ public class MineralsCollectionsRest {
         List<MineralImages> mineralImages = new ArrayList<>();
         List<TagsFoundMineral> tagsFoundMineralList = new ArrayList<>();
 
-        List<String> fileLocation = FileUtilsConv.saveAllImage(mineral.getImages(), usersDir + File.separator + userAccount.getUsername());
+        List<String> fileLocation = FileUtilsConv.saveAllImage(mineral.getImages(),
+                usersDir + File.separator + userAccount.getUsername());
 
         foundMineralService.addFoundMineral(newMineral);
 
-        for (String file : fileLocation) {
-            log.info(file);
-            MineralImages mineralImages1 = new MineralImages();
-            mineralImages1.setPath(file);
-            mineralImages1.setFoundMineralID(newMineral);
-            mineralImagesServices.addMineralImages(mineralImages1);
-            mineralImages.add(mineralImages1);
-        }
+        addImagesToDatabase(newMineral, mineralImages, fileLocation);
 
         newMineral.setMineralImages(mineralImages);
         if (mineral.getTags() != null) {
@@ -138,6 +140,18 @@ public class MineralsCollectionsRest {
         return ResponseEntity.ok(mineral);
     }
 
+    private void addImagesToDatabase(FoundMineral newMineral, List<MineralImages> mineralImages,
+                                     List<String> fileLocation) {
+        for (String file : fileLocation) {
+            log.info(file);
+            MineralImages mineralImages1 = new MineralImages();
+            mineralImages1.setPath(file);
+            mineralImages1.setFoundMineralID(newMineral);
+            mineralImagesServices.addMineralImages(mineralImages1);
+            mineralImages.add(mineralImages1);
+        }
+    }
+
     @GetMapping("/show-mineral")
     public ResponseEntity<MineralMessage> showMineral(@RequestParam Long id) {
         log.info("show mineral");
@@ -151,7 +165,8 @@ public class MineralsCollectionsRest {
     }
 
     @PutMapping("/edit-mineral-in-collection")
-    public ResponseEntity<MineralMessage> editMineralFromCollection(@RequestParam Long id, @RequestBody MineralMessage editedMineralMessage) {
+    public ResponseEntity<MineralMessage> editMineralFromCollection(@RequestParam Long id,
+                                                                    @RequestBody MineralMessage editedMineralMessage) {
         FoundMineral editedMineral2 = foundMineralService.getFoundMineral(editedMineralMessage.getId());
         FoundMineral editedMineral = editedMineralMessage.getFoundMineral();
 
@@ -177,16 +192,10 @@ public class MineralsCollectionsRest {
 
         if (editedMineralMessage.getImages() != null) {
             log.info("add images");
-            List<String> newImages = FileUtilsConv.saveAllImage(editedMineralMessage.getImages(), usersDir + File.separator + userAccount.getUsername());
+            List<String> newImages = FileUtilsConv.saveAllImage(editedMineralMessage.getImages(),
+                    usersDir + File.separator + userAccount.getUsername());
 
-            for (String file : newImages) {
-                log.info(file);
-                MineralImages mineralImages1 = new MineralImages();
-                mineralImages1.setPath(file);
-                mineralImages1.setFoundMineralID(editedMineral);
-                mineralImagesServices.addMineralImages(mineralImages1);
-                mineralImages.add(mineralImages1);
-            }
+            addImagesToDatabase(editedMineral, mineralImages, newImages);
         }
 
         foundMineralService.updateFoundMineral(editedMineralMessage.getId(), editedMineral);
@@ -206,7 +215,8 @@ public class MineralsCollectionsRest {
                 List<Tags> tags = tagsService.getTagsByName(tag);
 
                 if (tags != null && !tags.isEmpty()) {
-                    Optional<TagsFoundMineral> tagRelation = tagsFoundMineralService.checkIfRelations(editedMineral, tags.get(0));
+                    Optional<TagsFoundMineral> tagRelation = tagsFoundMineralService.checkIfRelations(editedMineral,
+                            tags.get(0));
 
                     if (tagRelation.isEmpty()) {
                         log.info("add tag: " + tag);
@@ -267,5 +277,15 @@ public class MineralsCollectionsRest {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/get-tags")
+    public List<String> getTags(@RequestParam("user") Long user) {
+        log.info("get tags by user");
+        List<String> tagsToSend = new ArrayList<>();
+        Set<Tags> tagsSet = tagsService.getTagsByUser(user);
+        for(Tags tag:tagsSet){
+            tagsToSend.add(tag.getTagName());
+        }
+        return tagsToSend;
+    }
 
 }

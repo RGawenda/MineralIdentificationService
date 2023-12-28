@@ -2,19 +2,14 @@ package com.mineralidentificationservice.model;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import jakarta.persistence.*;
 
 import java.util.List;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "Account")
 public class UserAccount {

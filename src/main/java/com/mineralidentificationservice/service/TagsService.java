@@ -3,6 +3,7 @@ package com.mineralidentificationservice.service;
 import com.mineralidentificationservice.model.FoundMineral;
 import com.mineralidentificationservice.model.Minerals;
 import com.mineralidentificationservice.model.Tags;
+import com.mineralidentificationservice.model.UserAccount;
 import com.mineralidentificationservice.repository.TagsRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -58,6 +60,12 @@ public class TagsService {
     public List<Tags> getTagsByName(String name) {
         return tagsRepository.findTagsByTagName(name);
     }
+
+    @Transactional
+    public Set<Tags> getTagsByUser(Long name) {
+        return tagsRepository.findDistinctTagsByUserId(name);
+    }
+
 
     @Transactional
     public List<Tags> getTagsByFoundMineral(FoundMineral foundMineral) {

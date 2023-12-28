@@ -1,7 +1,7 @@
 package com.mineralidentificationservice.rest;
 
 
-import com.mineralidentificationservice.ProcessImage;
+import com.mineralidentificationservice.service.ProcessImageService;
 import com.mineralidentificationservice.model.Minerals;
 import com.mineralidentificationservice.service.MineralService;
 import com.mineralidentificationservice.service.ClassificationResultService;
@@ -17,11 +17,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/classification-rest")
 public class MineralsClassificationRestController {
-    private final ProcessImage processImage;
+    private final ProcessImageService processImage;
     private final MineralService mineralService;
     private final ClassificationResultService classificationResultService;
 
-    public MineralsClassificationRestController(ClassificationResultService classificationResultService, ProcessImage processImage, MineralService mineralService) {
+    public MineralsClassificationRestController(ClassificationResultService classificationResultService, ProcessImageService processImage, MineralService mineralService) {
         this.processImage = processImage;
         this.mineralService = mineralService;
         this.classificationResultService = classificationResultService;

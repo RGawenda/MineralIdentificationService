@@ -4,12 +4,15 @@ import com.mineralidentificationservice.model.FoundMineral;
 import com.mineralidentificationservice.model.UserAccount;
 import com.mineralidentificationservice.repository.FoundMineralRepository;
 
+import com.mineralidentificationservice.specification.FoundMineralFilter;
+import com.mineralidentificationservice.specification.FoundMineralSpecifications;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,8 +50,10 @@ public class FoundMineralService {
         return foundMineralRepository.findAll(pageable);
     }
 
-    public Page<FoundMineral> getAllByUser(UserAccount userAccount, Pageable pageable) {
-        return foundMineralRepository.findFoundMineralsByAccountId(userAccount, pageable);
+    public Page<FoundMineral> getAllByUser(FoundMineralFilter foundMineralFilter, Pageable pageable) {
+        Specification<FoundMineral> specifications = FoundMineralSpecifications.findByMineralAndMohsScaleAndTagsAndFields(foundMineralFilter);
+
+        return foundMineralRepository.findAll(specifications, pageable);
     }
 
     @Transactional

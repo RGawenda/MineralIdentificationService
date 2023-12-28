@@ -1,4 +1,4 @@
-package com.mineralidentificationservice;
+package com.mineralidentificationservice.service;
 
 import com.google.gson.Gson;
 import com.mineralidentificationservice.rabbit.ImageToRecognitionMessage;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class ProcessImage {
+public class ProcessImageService {
 
     private final RabbitSender rabbitSender;
 
-    public ProcessImage(RabbitSender rabbitSender) {
+    public ProcessImageService(RabbitSender rabbitSender) {
         this.rabbitSender = rabbitSender;
     }
 

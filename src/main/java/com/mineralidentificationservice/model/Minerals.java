@@ -4,18 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+
+@Setter
+@Getter
 @Entity
 @Table(name = "Minerals")
 public class Minerals {
@@ -30,7 +26,7 @@ public class Minerals {
     @Column(name = "Name", columnDefinition = "VARCHAR(20)", nullable = false)
     private String mineralName;
 
-    @Column(name = "MohsScale", columnDefinition = "VARCHAR(6)")
+    @Column(name = "MohsScale", columnDefinition = "numeric")
     private Double mohsScale;
 
     @Column(name = "ChemicalFormula", columnDefinition = "VARCHAR(40)")

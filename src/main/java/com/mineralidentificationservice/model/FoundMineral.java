@@ -7,17 +7,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "FoundMineral")
 public class FoundMineral {
@@ -43,14 +38,14 @@ public class FoundMineral {
     @Column(name = "DiscoveryPlace", columnDefinition = "VARCHAR(1500)")
     private String discoveryPlace;
 
-    @Column(name = "Value", columnDefinition = "VARCHAR(30)")
-    private String value;
+    @Column(name = "Value", columnDefinition = "numeric")
+    private Double value;
 
-    @Column(name = "Weight", columnDefinition = "VARCHAR(30)")
-    private String weight;
+    @Column(name = "Weight", columnDefinition = "numeric")
+    private Double weight;
 
-    @Column(name = "Size", columnDefinition = "VARCHAR(30)")
-    private String size;
+    @Column(name = "Size", columnDefinition = "numeric")
+    private Double size;
 
     @Column(name = "Inclusion", columnDefinition = "VARCHAR(300)")
     private String inclusion;
