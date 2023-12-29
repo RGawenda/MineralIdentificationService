@@ -1,14 +1,11 @@
 package com.mineralidentificationservice.service;
 
 import com.mineralidentificationservice.model.FoundMineral;
-import com.mineralidentificationservice.model.UserAccount;
 import com.mineralidentificationservice.repository.FoundMineralRepository;
-
 import com.mineralidentificationservice.specification.FoundMineralFilter;
 import com.mineralidentificationservice.specification.FoundMineralSpecifications;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -24,6 +24,7 @@ repositories {
 ext {
     springVersion = '3.1.4'
     gsonVersion = '2.8.9'
+    jwtVersion = '0.11.5'
 }
 
 dependencies {
@@ -31,26 +32,29 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-rest:$springVersion"
     implementation "org.springframework.boot:spring-boot-starter-jdbc:$springVersion"
     implementation "org.springframework.boot:spring-boot-starter-web:$springVersion"
-    //implementation "org.springframework.boot:spring-boot-starter-security:3.2.0"
-    //implementation group: 'org.springframework.security', name: 'spring-security-config', version: '6.2.0'
+
     implementation "javax.servlet:javax.servlet-api:4.0.1"
-    //implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.2.RELEASE'
-    //implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    //implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.postgresql:postgresql"
     implementation "org.springframework.data:spring-data-jpa:3.1.5"
     implementation "org.postgresql:postgresql"
     implementation "org.hibernate:hibernate-core:6.1.7.Final"
     implementation "javax.persistence:javax.persistence-api:2.2"
     implementation "com.google.code.gson:gson:$gsonVersion"
-
     compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
 
-    //developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+    implementation "org.springframework.boot:spring-boot-starter-security:3.2.0"
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation "io.jsonwebtoken:jjwt-api:$jwtVersion"
+    implementation "io.jsonwebtoken:jjwt-impl:$jwtVersion"
+    implementation "io.jsonwebtoken:jjwt-jackson:$jwtVersion"
+    implementation "io.jsonwebtoken:jjwt-gson:$jwtVersion"
+    //implementation group: 'org.springframework.security', name: 'spring-security-config', version: '6.2.0'
+    //implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.2.RELEASE'
 
 }
 

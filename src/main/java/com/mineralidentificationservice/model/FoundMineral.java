@@ -32,10 +32,10 @@ public class FoundMineral {
     @Column(name = "Name", columnDefinition = "VARCHAR(30)", nullable = false)
     private String name;
 
-    @Column(name = "Comment", columnDefinition = "VARCHAR(2000)")
+    @Column(name = "Comment", columnDefinition = "TEXT")
     private String comment;
 
-    @Column(name = "DiscoveryPlace", columnDefinition = "VARCHAR(1500)")
+    @Column(name = "DiscoveryPlace", columnDefinition = "TEXT")
     private String discoveryPlace;
 
     @Column(name = "Value", columnDefinition = "numeric")

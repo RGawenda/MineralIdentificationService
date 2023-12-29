@@ -2,18 +2,11 @@ package com.mineralidentificationservice.service;
 
 import com.google.gson.Gson;
 import com.mineralidentificationservice.rabbit.ResultMessage;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Log4j2
 @Service
