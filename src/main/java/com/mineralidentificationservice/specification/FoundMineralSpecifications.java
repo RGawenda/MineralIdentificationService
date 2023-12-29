@@ -17,7 +17,7 @@ public class FoundMineralSpecifications {
             Predicate predicate = criteriaBuilder.conjunction();
 
             root.join("accountId");
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("accountId").get("id"), foundMineralFilter.getUserID()));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("accountId").get("username"), foundMineralFilter.getUser()));
 
 
             root.join("mineralId");

@@ -279,10 +279,11 @@ public class MineralsCollectionsRest {
     }
 
     @GetMapping("/get-tags")
-    public List<String> getTags(@RequestParam("user") Long user) {
+    public List<String> getTags(@RequestParam("user") String user) {
         log.info("get tags by user");
         List<String> tagsToSend = new ArrayList<>();
-        Set<Tags> tagsSet = tagsService.getTagsByUser(user);
+
+        Set<Tags> tagsSet = tagsService.getTagsByUser(userAccountService.getAccountByUsername(user).getId());
         for (Tags tag : tagsSet) {
             tagsToSend.add(tag.getTagName());
         }
