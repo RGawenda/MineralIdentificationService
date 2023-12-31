@@ -1,6 +1,7 @@
 package com.mineralidentificationservice.rest;
 
 import com.google.gson.Gson;
+import com.mineralidentificationservice.enums.AccountType;
 import com.mineralidentificationservice.model.*;
 import com.mineralidentificationservice.rest.restMessages.MineralMessage;
 import com.mineralidentificationservice.service.*;
@@ -11,16 +12,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Log4j2
 @RestController
@@ -32,19 +32,22 @@ public class MineralsCollectionsRest {
     private final MineralImagesService mineralImagesServices;
     private final TagsFoundMineralService tagsFoundMineralService;
     private final MineralService mineralService;
+    private final SharingService sharingService;
 
     @Value("${users.dir}")
     private String usersDir;
 
     public MineralsCollectionsRest(TagsFoundMineralService tagsFoundMineralService, MineralService mineralService,
                                    MineralImagesService mineralImagesServices, TagsService tagsService,
-                                   FoundMineralService foundMineralService, UserAccountService userAccountService) {
+                                   FoundMineralService foundMineralService, UserAccountService userAccountService,
+                                   SharingService sharingService) {
         this.foundMineralService = foundMineralService;
         this.userAccountService = userAccountService;
         this.mineralImagesServices = mineralImagesServices;
         this.tagsService = tagsService;
         this.mineralService = mineralService;
         this.tagsFoundMineralService = tagsFoundMineralService;
+        this.sharingService = sharingService;
     }
 
     @GetMapping("all-collection")
@@ -74,11 +77,6 @@ public class MineralsCollectionsRest {
         }
 
         return ResponseEntity.ok(mineralMessages);
-    }
-
-    @GetMapping("/show-profile")
-    public void showProfile() {
-        log.info("show profile");
     }
 
     @GetMapping("/collected-mineral")
@@ -290,10 +288,59 @@ public class MineralsCollectionsRest {
         return tagsToSend;
     }
 
-    private UserAccount getUser(){
+    private UserAccount getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         return userAccountService.getAccountByUsername(username);
     }
 
+    @GetMapping("/get-users")
+    public List<String> getUserListPublicAccount() {
+        log.info("getUserListPublicAccount");
+        List<UserAccount> userAccounts = userAccountService.getUsersByAccountType(AccountType.PUBLIC);
+        Set<String> uniqueSet = userAccounts.stream().map(UserAccount::getUsername).collect(Collectors.toSet());
+        uniqueSet.addAll(sharingService.getByUserTO(getUser().getId()));
+        uniqueSet.remove(getUser().getUsername());
+        return new ArrayList<>(uniqueSet);
+    }
+
+    @GetMapping("/get-share-users")
+    public List<String> getShareUsers() {
+        log.info("getShareUsers");
+        return sharingService.getByUserFrom(getUser().getId());
+    }
+
+    @GetMapping("/get-account-type")
+    public AccountType getAccountType() {
+        log.info("getAccountType");
+        return userAccountService.getAccount(getUser().getId()).getAccountType();
+    }
+
+
+    @PutMapping("/change-account-type")
+    public ResponseEntity<String> changeAccountType(AccountType accountType) {
+        log.info("changeAccountType"+accountType);
+        UserAccount userAccount = userAccountService.getAccount(getUser().getId());
+        userAccount.setAccountType(accountType);
+        userAccountService.updateAccount(getUser().getId(), userAccount);
+        return new ResponseEntity<>("User type account changed", HttpStatus.OK);
+    }
+
+    @PostMapping("/share-collection")
+    public ResponseEntity<String> shareCollection(@RequestParam("username") String username) {
+        log.info("shareCollection");
+        Sharing sharing = new Sharing();
+        sharing.setUserTo(userAccountService.getAccountByUsername(username));
+        sharing.setUserFrom(getUser());
+        sharingService.add(sharing);
+        return new ResponseEntity<>("collection shared ", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/unshared-collection")
+    public ResponseEntity<String> unsharedCollection(@RequestParam("username") String username) {
+        log.info("unsharedCollection"+ username);
+
+        sharingService.deleteRecord(getUser(), userAccountService.getAccountByUsername(username));
+        return new ResponseEntity<>("User unshare ", HttpStatus.OK);
+    }
 }

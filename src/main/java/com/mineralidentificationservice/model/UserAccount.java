@@ -1,7 +1,8 @@
 package com.mineralidentificationservice.model;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.mineralidentificationservice.enums.AccountType;
+import com.mineralidentificationservice.enums.Role;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -33,6 +34,9 @@ public class UserAccount implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

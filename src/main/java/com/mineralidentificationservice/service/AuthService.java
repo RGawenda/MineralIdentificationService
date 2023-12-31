@@ -3,7 +3,7 @@ package com.mineralidentificationservice.service;
 import com.mineralidentificationservice.rest.restMessages.AuthRequest;
 import com.mineralidentificationservice.rest.restMessages.AuthenticationResponse;
 import com.mineralidentificationservice.rest.restMessages.RegisterRequest;
-import com.mineralidentificationservice.model.Role;
+import com.mineralidentificationservice.enums.Role;
 import com.mineralidentificationservice.model.UserAccount;
 import com.mineralidentificationservice.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +25,8 @@ public class AuthService {
     public AuthenticationResponse register(RegisterRequest registerRequest) {
         UserAccount userAccount = new UserAccount();
         userAccount.setUsername(registerRequest.getUsername());
+        userAccount.setAccountType(registerRequest.getAccountType());
+
         log.info(passwordEncoder.encode(registerRequest.getPassword()));
 
         userAccount.setPassword(passwordEncoder.encode(registerRequest.getPassword()));

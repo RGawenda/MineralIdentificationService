@@ -1,5 +1,6 @@
 package com.mineralidentificationservice.service;
 
+import com.mineralidentificationservice.enums.AccountType;
 import com.mineralidentificationservice.model.UserAccount;
 import com.mineralidentificationservice.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -7,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -22,6 +25,11 @@ public class UserAccountService {
     @Transactional
     public UserAccount addAccount(UserAccount userAccount) {
         return userAccountRepository.save(userAccount);
+    }
+
+    @Transactional
+    public List<UserAccount> getUsersByAccountType(AccountType accountType) {
+        return userAccountRepository.findUserAccountByAccountType(accountType);
     }
 
     @Transactional
