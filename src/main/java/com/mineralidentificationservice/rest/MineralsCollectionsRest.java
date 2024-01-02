@@ -79,11 +79,6 @@ public class MineralsCollectionsRest {
         return ResponseEntity.ok(mineralMessages);
     }
 
-    @GetMapping("/collected-mineral")
-    public void getMineralCollections(String auth, String mineralName) {
-        log.info("get collected: " + mineralName);
-    }
-
     //CRUD minerals
     @PostMapping("/add-mineral-to-collection")
     public ResponseEntity<MineralMessage> addMineralToCollection(@RequestBody MineralMessage mineral) {
@@ -150,18 +145,6 @@ public class MineralsCollectionsRest {
             mineralImagesServices.addMineralImages(mineralImages1);
             mineralImages.add(mineralImages1);
         }
-    }
-
-    @GetMapping("/show-mineral")
-    public ResponseEntity<MineralMessage> showMineral(@RequestParam Long id) {
-        log.info("show mineral");
-
-        FoundMineral entity = foundMineralService.getFoundMineral(id);
-        //List<String> images = FileUtilsConv.loadAllImageToBase64(entity.getPaths());
-        MineralMessage mineralMessage = new MineralMessage();
-        mineralMessage.setFoundMineral(entity);
-        //mineralMessage.setImages(images);
-        return ResponseEntity.ok(mineralMessage);
     }
 
     @PutMapping("/edit-mineral-in-collection")

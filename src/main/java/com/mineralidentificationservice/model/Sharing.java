@@ -16,11 +16,11 @@ public class Sharing {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id_from")
+    @JoinColumn(name = "userIdFrom")
     private UserAccount userFrom;
 
     @ManyToOne
-    @JoinColumn(name = "user_id_to")
+    @JoinColumn(name = "userIdTo")
     private UserAccount userTo;
 
 }
